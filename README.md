@@ -45,8 +45,8 @@ python render.py
 
 ### Note: 
 
-- I didn't tune the hyperparam, so the param setting is likely to be suboptimal. 
-- This task doesn't seem to require discounting, but empirically having a `gamma` < 1 seem to be important.
+- I didn't tune hyperparameters, so the parameter setting is likely to be suboptimal. 
+- Empirically, having a `gamma` close to 1 seem to be important.
 
 ### Reference: 
 
