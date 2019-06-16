@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
+from torch.distributions import Categorical
 from models.utils import softmax, ortho_init
 
 
@@ -63,6 +64,25 @@ class A2C(nn.Module):
         value_estimate = self.critic(h)
         return action_distribution, value_estimate
 
+    def pick_action(self, action_distribution):
+        """action selection by sampling from a multinomial.
+
+        Parameters
+        ----------
+        action_distribution : 1d torch.tensor
+            action distribution, pi(a|s)
+
+        Returns
+        -------
+        torch.tensor(int), torch.tensor(float)
+            sampled action, log_prob(sampled action)
+
+        """
+        m = Categorical(action_distribution)
+        a_t = m.sample()
+        log_prob_a_t = m.log_prob(a_t)
+        return a_t, log_prob_a_t
+
 
 class A2C_linear(nn.Module):
     """a linear actor-critic network
@@ -111,3 +131,22 @@ class A2C_linear(nn.Module):
         action_distribution = softmax(self.actor(x), beta)
         value_estimate = self.critic(x)
         return action_distribution, value_estimate
+
+    def pick_action(self, action_distribution):
+        """action selection by sampling from a multinomial.
+
+        Parameters
+        ----------
+        action_distribution : 1d torch.tensor
+            action distribution, pi(a|s)
+
+        Returns
+        -------
+        torch.tensor(int), torch.tensor(float)
+            sampled action, log_prob(sampled action)
+
+        """
+        m = Categorical(action_distribution)
+        a_t = m.sample()
+        log_prob_a_t = m.log_prob(a_t)
+        return a_t, log_prob_a_t
