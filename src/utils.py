@@ -24,7 +24,3 @@ def run(agent_, env, render=False, max_steps=1000):
 
 def to_th(np_array):
     return torch.tensor(np_array).type(torch.FloatTensor)
-
-
-def to_np(torch_tensor):
-    return torch_tensor.data.numpy()

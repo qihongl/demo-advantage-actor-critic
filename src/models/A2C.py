@@ -30,7 +30,7 @@ class A2C(nn.Module):
 
     """
 
-    def __init__(self, dim_input, dim_hidden, dim_output, dropout_rate=0):
+    def __init__(self, dim_input, dim_output, dim_hidden=128, dropout_rate=0):
         super(A2C, self).__init__()
         self.dim_input = dim_input
         self.dim_hidden = dim_hidden

@@ -10,12 +10,7 @@ def main():
     env = gym.make('CartPole-v0').env
     state_dim = env.observation_space.shape[0]
     n_actions = env.action_space.n
-    dim_hidden = 128
-    dropout_rate = .5
-    agent = Agent(
-        dim_input=state_dim, dim_hidden=dim_hidden, dim_output=n_actions,
-        dropout_rate=dropout_rate
-    )
+    agent = Agent(state_dim, n_actions)
     agent.load_state_dict(torch.load('../log/agent.pth'))
     agent.eval()
     step, probs, rewards, values = run(agent, env, render=True)
