@@ -45,6 +45,7 @@ python render-cartpole.py
 
 ### Note: 
 
+- I didn't tune the hyperparam, so the param setting is likely to be suboptimal. 
 - This task doesn't seem to require discounting, but empirically having a `gamma` < 1 seem to be important.
 
 ### Reference: 
