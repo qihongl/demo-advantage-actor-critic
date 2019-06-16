@@ -74,8 +74,6 @@ def main():
     f.tight_layout()
     f.savefig(os.path.join(img_dir, 'lc.png'), dpi=120)
 
-    # step, probs, rewards, values = run(agent, True)
-
 
 if __name__ == "__main__":
     main()
