@@ -4,23 +4,23 @@ A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016), tested 
 
 Here's the learned behavior: 
 
-<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render.gif" width=500>
+<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-CartPole-v0.gif" width=500>
 
 Here's the learning curve: 
 
-<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/lc.png" width=400>
+<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/lc-CartPole-v0.png" width=400>
 
 
 ### How to use: 
 
 For training: 
 ```
-python train-cartpole.py
+python train.py
 ```
 
 For rendering the learned behavior:
 ```
-python render-cartpole.py
+python render.py
 ```
 
 ### dir structure: 
@@ -37,8 +37,8 @@ python render-cartpole.py
     │   ├── __init__.py
     │   ├── _a2c_helpers.py      # a2c helper 
     │   └── utils.py
-    ├── render-cartpole.py       # visualize env 
-    ├── train-cartpole.py        # train an agent
+    ├── render.py                # visualize env 
+    ├── train.py                 # train an agent
     └── utils.py
 
 ```
