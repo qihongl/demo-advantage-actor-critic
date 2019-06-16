@@ -2,7 +2,7 @@
 
 A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016), tested on `cartpole-v0`. 
 
-Here's the learned behavior: 
+The goal is to keep the pole upright. Here's the learned behavior: 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-CartPole-v0.gif" width=500>
 
