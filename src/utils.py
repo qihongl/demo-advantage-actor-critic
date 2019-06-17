@@ -1,10 +1,11 @@
 import torch
 
 
-def run(agent_, env, render=False, max_steps=1000):
+def run(agent_, env, gamma=.99, render=False, max_steps=1000):
     s_t = env.reset()
     probs, rewards, values = [], [], []
     step = 0
+    cumulative_reward = 0
     while step < max_steps:
         if render:
             env.render()
@@ -14,11 +15,12 @@ def run(agent_, env, render=False, max_steps=1000):
         probs.append(prob_a_t)
         rewards.append(r_t)
         values.append(v_t)
+        cumulative_reward += r_t * gamma ** step
         step += 1
         if done:
             break
     env.close()
-    return step, probs, rewards, values
+    return cumulative_reward, step, probs, rewards, values
 
 
 def to_th(np_array):

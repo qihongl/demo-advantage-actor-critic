@@ -31,7 +31,7 @@ class A2C(nn.Module):
 
     """
 
-    def __init__(self, dim_input, dim_output, dim_hidden=128, dropout_rate=0):
+    def __init__(self, dim_input, dim_output, dim_hidden=128):
         super(A2C, self).__init__()
         self.dim_input = dim_input
         self.dim_hidden = dim_hidden
@@ -39,7 +39,6 @@ class A2C(nn.Module):
         self.ih = nn.Linear(dim_input, dim_hidden)
         self.actor = nn.Linear(dim_hidden, dim_output)
         self.critic = nn.Linear(dim_hidden, 1)
-        self.dropout = nn.Dropout(p=dropout_rate)
         ortho_init(self)
 
     def forward(self, x, beta=1):
@@ -59,7 +58,6 @@ class A2C(nn.Module):
 
         """
         h = F.relu(self.ih(x))
-        h = self.dropout(h)
         action_distribution = softmax(self.actor(h), beta)
         value_estimate = self.critic(h)
         return action_distribution, value_estimate
