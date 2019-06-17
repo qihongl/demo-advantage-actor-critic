@@ -62,6 +62,7 @@ def main(
     ax.plot(log_steps)
     ax.set_title('Learning curve')
     ax.set_ylabel('Return (#steps)')
+    ax.set_xlabel('Epoch')
     sns.despine()
     f.tight_layout()
     f.savefig(f'../figs/lc-{env_name}.png', dpi=120)
