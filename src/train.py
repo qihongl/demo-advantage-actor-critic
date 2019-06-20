@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from models import compute_returns, compute_a2c_loss
 from models import A2C as Agent
 from utils import run
-
+plt.switch_backend('agg')
 sns.set(style='white', context='talk', palette='colorblind')
 
 
@@ -26,11 +26,11 @@ def main(
     n_actions = env.action_space.n
     agent = Agent(state_dim, n_actions, dim_hidden=n_hidden)
     optimizer = torch.optim.Adam(agent.parameters(), lr=learning_rate)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, 'max', patience=100, factor=1/2, verbose=True)
+    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    #     optimizer, 'max', patience=100, factor=1/2, verbose=True)
     # train
-    log_cum_reward = np.zeros((n_epoch,))
-    log_steps = np.zeros((n_epoch,))
+    log_return = np.zeros((n_epoch,))
+    log_step = np.zeros((n_epoch,))
     log_loss_v = np.zeros((n_epoch,))
     log_loss_p = np.zeros((n_epoch,))
     for i in range(n_epoch):
@@ -44,17 +44,16 @@ def main(
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        scheduler.step(cumulative_reward)
+        # scheduler.step(cumulative_reward)
         # log message
-        log_cum_reward[i] = cumulative_reward
-        log_steps[i] = step
+        log_return[i] = cumulative_reward
+        log_step[i] = step
         log_loss_v[i] = loss_value.item()
         log_loss_p[i] = loss_policy.item()
         if np.mod(i, 10) == 0:
             print(
-                'Epoch : %.3d | cumulative reward: %.2f, steps: %4d | L: pi: %.2f, V: %.2f' %
-                (i, log_cum_reward[i], log_steps[i],
-                 log_loss_p[i], log_loss_v[i])
+                'Epoch : %.3d | R: %.2f, steps: %4d | L: pi: %.2f, V: %.2f' %
+                (i, log_return[i], log_step[i], log_loss_p[i], log_loss_v[i])
             )
 
     # save weights
@@ -62,8 +61,8 @@ def main(
 
     '''show learning curve: return, steps'''
     f, axes = plt.subplots(2, 1, figsize=(7, 7), sharex=True)
-    axes[0].plot(log_cum_reward)
-    axes[1].plot(log_steps)
+    axes[0].plot(log_return)
+    axes[1].plot(log_step)
     axes[0].set_title(f'Learning curve: {env_name}')
     axes[0].set_ylabel('Return')
     axes[1].set_ylabel('#steps')
