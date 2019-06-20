@@ -1,8 +1,8 @@
 # demo-A2C
 
-A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016), tested on `cartpole-v0`. 
+A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016). 
 
-The goal is to keep the pole upright. Here's the learned behavior: 
+Here's its learned behavior on `cartpole-v0`. The goal is to keep the pole upright. 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-CartPole-v0.gif" width=500>
 
@@ -11,11 +11,16 @@ Here's the learning curve:
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/lc-CartPole-v0.png" width=400>
 
 
+The agent should be runnable on any environemnt with a discrete action space. For example, it can also solve `acrobot-v1`: 
+
+<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-Acrobot-v1.gif" width=400>
+
+
 ### How to use: 
 
 The dependencies are: `pytorch`, `gym`, `numpy`, `matplotlib`, `seaborn`. The lastest version should work. 
 
-For training: 
+For training (the default environment is `cartpole-v0`): 
 ```
 python train.py
 ```
@@ -54,3 +59,4 @@ python render.py
 
 Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap, T. P., Harley, T., … Kavukcuoglu, K. (2016). Asynchronous Methods for Deep Reinforcement Learning. Retrieved from http://arxiv.org/abs/1602.01783
 
+Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J., Tang, J., & Zaremba, W. (2016). OpenAI Gym. Retrieved from http://arxiv.org/abs/1606.01540
