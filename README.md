@@ -13,6 +13,8 @@ Here's the learning curve:
 
 ### How to use: 
 
+The dependencies are: `pytorch`, `gym`, `numpy`, `matplotlib`, `seaborn`. The lastest version should work. 
+
 For training: 
 ```
 python train.py
