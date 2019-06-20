@@ -26,6 +26,8 @@ def main(
     n_actions = env.action_space.n
     agent = Agent(state_dim, n_actions, dim_hidden=n_hidden)
     optimizer = torch.optim.Adam(agent.parameters(), lr=learning_rate)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, 'max', patience=100, factor=1/2, verbose=True)
     # train
     log_cum_reward = np.zeros((n_epoch,))
     log_steps = np.zeros((n_epoch,))
@@ -33,8 +35,7 @@ def main(
     log_loss_p = np.zeros((n_epoch,))
     for i in range(n_epoch):
         cumulative_reward, step, probs, rewards, values = run(
-            agent, env,
-            gamma=gamma, max_steps=max_steps
+            agent, env, gamma=gamma, max_steps=max_steps
         )
         # update weights
         returns = compute_returns(rewards, gamma=gamma, normalize=True)
@@ -43,26 +44,30 @@ def main(
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        scheduler.step(cumulative_reward)
         # log message
         log_cum_reward[i] = cumulative_reward
         log_steps[i] = step
         log_loss_v[i] = loss_value.item()
         log_loss_p[i] = loss_policy.item()
-        if np.mod(i, 50) == 0:
+        if np.mod(i, 10) == 0:
             print(
-                'Epoch : %.3d | cumulative reward: %.2f, steps: %.2f' %
-                (i, log_cum_reward[i], log_steps[i])
+                'Epoch : %.3d | cumulative reward: %.2f, steps: %4d | L: pi: %.2f, V: %.2f' %
+                (i, log_cum_reward[i], log_steps[i],
+                 log_loss_p[i], log_loss_v[i])
             )
 
     # save weights
     torch.save(agent.state_dict(), f'../log/agent-{env_name}.pth')
 
     '''show learning curve: return, steps'''
-    f, ax = plt.subplots(1, 1, figsize=(5, 3), sharex=True)
-    ax.plot(log_steps)
-    ax.set_title('Learning curve')
-    ax.set_ylabel('Return (#steps)')
-    ax.set_xlabel('Epoch')
+    f, axes = plt.subplots(2, 1, figsize=(7, 7), sharex=True)
+    axes[0].plot(log_cum_reward)
+    axes[1].plot(log_steps)
+    axes[0].set_title(f'Learning curve: {env_name}')
+    axes[0].set_ylabel('Return')
+    axes[1].set_ylabel('#steps')
+    axes[1].set_xlabel('Epoch')
     sns.despine()
     f.tight_layout()
     f.savefig(f'../figs/lc-{env_name}.png', dpi=120)

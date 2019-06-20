@@ -1,4 +1,5 @@
 import torch
+import time
 
 
 def run(agent_, env, gamma=.99, render=False, max_steps=1000):
@@ -9,6 +10,7 @@ def run(agent_, env, gamma=.99, render=False, max_steps=1000):
     while step < max_steps:
         if render:
             env.render()
+            # time.sleep(.07)
         pi_a_t, v_t = agent_.forward(to_th(s_t).view(1, -1))
         a_t, prob_a_t = agent_.pick_action(pi_a_t)
         s_t, r_t, done, info = env.step(int(a_t))
