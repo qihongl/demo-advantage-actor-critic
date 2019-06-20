@@ -11,7 +11,7 @@ Here's the learning curve:
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/lc-CartPole-v0.png" width=400>
 
 
-The same agent can also solve `acrobot-v1`: 
+The agent should be runnable on any environemnt with a discrete action space. For example, it can also solve `acrobot-v1`: 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-Acrobot-v1.gif" width=400>
 
