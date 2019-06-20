@@ -20,7 +20,7 @@ The same agent can also solve `acrobot-v1`:
 
 The dependencies are: `pytorch`, `gym`, `numpy`, `matplotlib`, `seaborn`. The lastest version should work. 
 
-For training: 
+For training (the default environment is `cartpole-v0`): 
 ```
 python train.py
 ```
