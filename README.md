@@ -11,18 +11,6 @@ Here's the learning curve:
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/lc-CartPole-v0.png" width=450>
 
 
-The agent should be runnable on any environemnt with a discrete action space. 
-
-For example, the same architecture can also solve `acrobot-v1`: 
-
-<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-Acrobot-v1.gif" width=400>
-
-
-... and `LunarLander-v2`: 
-
-<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-LunarLander-v2.gif" width=400>
-
-
 ### How to use: 
 
 The dependencies are: `pytorch`, `gym`, `numpy`, `matplotlib`, `seaborn`. The lastest version should work. 
@@ -36,6 +24,19 @@ For rendering the learned behavior:
 ```
 python render.py
 ```
+
+The agent should be runnable on any environemnt with a discrete action space. To run the agent on other environment, type `python train.py -env ENVIRONMENT_NAME`. For other input arg options, see the `main` function in `src/train.py`.
+
+For example, the same architecture can also solve `acrobot-v1`: 
+
+<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-Acrobot-v1.gif" width=400>
+
+
+... and `LunarLander-v2`: 
+
+<img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-LunarLander-v2.gif" width=400>
+
+
 
 ### dir structure: 
 ```
@@ -56,11 +57,6 @@ python render.py
     └── utils.py
 
 ```
-
-### Note: 
-
-- I didn't tune hyperparameters, so the parameter setting is likely to be suboptimal. 
-- Empirically, having a `gamma` close to 1 seem to be important.
 
 ### Reference: 
 
