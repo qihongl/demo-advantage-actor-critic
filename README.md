@@ -2,7 +2,7 @@
 
 A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016). 
 
-Here's its learned behavior on `cartpole-v0`. The goal is to keep the pole upright. 
+Here's its learned behavior on `CartPole-v0`. The goal is to keep the pole upright. 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-CartPole-v0.gif" width=500>
 
@@ -15,7 +15,7 @@ Here's the learning curve:
 
 The dependencies are: `pytorch`, `gym`, `numpy`, `matplotlib`, `seaborn`. The lastest version should work. 
 
-For training (the default environment is `cartpole-v0`): 
+For training (the default environment is `CartPole-v0`): 
 ```
 python train.py
 ```
@@ -27,7 +27,7 @@ python render.py
 
 The agent should be runnable on any environemnt with a discrete action space. To run the agent on other environment, type `python train.py -env ENVIRONMENT_NAME`. For other input arg options, see the `main` function in `src/train.py`.
 
-For example, the same architecture can also solve `acrobot-v1`: 
+For example, the same architecture can also solve `Acrobot-v1`: 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-Acrobot-v1.gif" width=400>
 
