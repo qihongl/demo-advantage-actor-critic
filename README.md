@@ -25,7 +25,7 @@ For rendering the learned behavior:
 python render.py
 ```
 
-The agent should be runnable on any environemnt with a discrete action space. To run the agent on other environment, type `python train.py -env ENVIRONMENT_NAME`. For other input arg options, see the `main` function in `src/train.py`.
+The agent should be runnable on any environemnt with a discrete action space. To run the agent on some other environment, type `python train.py -env ENVIRONMENT_NAME`.
 
 For example, the same architecture can also solve `Acrobot-v1`: 
 
