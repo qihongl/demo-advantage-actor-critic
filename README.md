@@ -60,6 +60,18 @@ For example, the same architecture can also solve `Acrobot-v1`:
 
 ### Reference: 
 
+[1] 
 Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap, T. P., Harley, T., … Kavukcuoglu, K. (2016). Asynchronous Methods for Deep Reinforcement Learning. Retrieved from http://arxiv.org/abs/1602.01783
 
+[2] 
 Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J., Tang, J., & Zaremba, W. (2016). OpenAI Gym. Retrieved from http://arxiv.org/abs/1606.01540
+
+[3] 
+Paszke, A., Gross, S., Chintala, S., Chanan, G., Yang, E., DeVito, Z., … Lerer, A. (2017). Automatic differentiation in PyTorch. Retrieved from https://openreview.net/forum?id=BJJsrmfCZ
+
+[4] 
+<a href="https://github.com/pytorch/examples/blob/master/reinforcement_learning/actor_critic.py">pytorch/examples/reinforcement_learning/actor_critic</a>
+
+[5] 
+<a href="http://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-6.pdf">Slides</a> from 
+Deep Reinforcement Learning, CS294-112 at UC Berkeley
