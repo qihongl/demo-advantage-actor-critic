@@ -1,5 +1,6 @@
+import numpy as np
 import torch
-import time
+# import time
 
 
 def run(agent_, env, gamma=.99, render=False, max_steps=1000):
@@ -23,6 +24,15 @@ def run(agent_, env, gamma=.99, render=False, max_steps=1000):
             break
     env.close()
     return cumulative_reward, step, probs, rewards, values
+
+
+def get_state_dim(env):
+    state_shape = env.observation_space.shape
+    if len(state_shape) == 0:
+        ns = 1
+    else:
+        ns = np.cumprod([i for i in state_shape])[-1]
+    return ns
 
 
 def to_th(np_array):

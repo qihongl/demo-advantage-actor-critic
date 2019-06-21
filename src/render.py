@@ -1,16 +1,15 @@
 import gym
 import torch
 import argparse
-
 from models import A2C as Agent
-from utils import run
+from utils import run, get_state_dim
 
 
 def main(env_name):
     '''render the performance of a saved ckpt'''
     # define env and agent
     env = gym.make(env_name).env
-    state_dim = env.observation_space.shape[0]
+    state_dim = get_state_dim(env)
     n_actions = env.action_space.n
     agent = Agent(state_dim, n_actions)
     agent.load_state_dict(torch.load(f'../log/agent-{env_name}.pth'))

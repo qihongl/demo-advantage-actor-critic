@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from models import compute_returns, compute_a2c_loss
 from models import A2C as Agent
-from utils import run
+from utils import run, get_state_dim
 plt.switch_backend('agg')
 sns.set(style='white', context='talk', palette='colorblind')
 
@@ -22,7 +22,7 @@ def main(
     np.random.seed(seed_val)
     torch.manual_seed(seed_val)
     # define agent
-    state_dim = env.observation_space.shape[0]
+    state_dim = get_state_dim(env)
     n_actions = env.action_space.n
     agent = Agent(state_dim, n_actions, dim_hidden=n_hidden)
     optimizer = torch.optim.Adam(agent.parameters(), lr=learning_rate)
