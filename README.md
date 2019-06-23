@@ -1,8 +1,8 @@
 # demo-A2C
 
-A demo of the advantage actor critic (A2C) algorithm (Mnih et al. 2016). 
+A demo of the discrete action space advantage actor critic (A2C) (Mnih et al. 2016). 
 
-Here's its learned behavior on `CartPole-v0`. The goal is to keep the pole upright. 
+The animation below shows the learned behavior on `CartPole-v0`. The goal is to keep the pole upright. For comparison, here's <a href="https://gym.openai.com/docs/#environments">a random policy</a>. 
 
 <img src="https://github.com/qihongl/demo-advantage-actor-critic/blob/master/figs/render-CartPole-v0.gif" width=500>
 
