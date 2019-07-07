@@ -114,7 +114,7 @@ class A2C_linear(nn.Module):
         pi_a_t = softmax(self.actor(x), beta)
         v_t = self.critic(x)
         a_t, log_prob_a_t = _sample_action(pi_a_t)
-        ent_t = entropy(a_t)
+        ent_t = entropy(pi_a_t)
         # pack data
         misc = []
         output = [a_t, log_prob_a_t, ent_t, v_t, misc]
