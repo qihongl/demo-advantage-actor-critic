@@ -5,8 +5,10 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from models import compute_returns, compute_a2c_loss
-from models import A2C as Agent
-from utils import run, get_state_dim
+from models import A2C_discrete as Agent
+# from models import A2C_continuous as Agent
+from utils import run, get_env_info
+import pdb
 plt.switch_backend('agg')
 sns.set(style='white', context='talk', palette='colorblind')
 
@@ -17,20 +19,17 @@ def main(
 ):
     '''train an a2c network some gym env'''
     # define env
-    env = gym.make(env_name).env
+    env = gym.make(env_name)
     env.seed(seed_val)
     np.random.seed(seed_val)
     torch.manual_seed(seed_val)
     # define agent
-    state_dim = get_state_dim(env)
-    n_actions = env.action_space.n
-    agent = Agent(state_dim, n_actions, dim_hidden=n_hidden)
+    state_dim, n_actions, action_space_type = get_env_info(env)
+    agent = Agent(state_dim, n_hidden, n_actions)
     optimizer = torch.optim.Adam(agent.parameters(), lr=learning_rate)
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    #     optimizer, 'max', patience=100, factor=1/2, verbose=True)
     # train
-    log_return = np.zeros((n_epoch,))
     log_step = np.zeros((n_epoch,))
+    log_return = np.zeros((n_epoch,))
     log_loss_v = np.zeros((n_epoch,))
     log_loss_p = np.zeros((n_epoch,))
     for i in range(n_epoch):
@@ -44,10 +43,9 @@ def main(
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        # scheduler.step(cumulative_reward)
         # log message
-        log_return[i] = cumulative_reward
         log_step[i] = step
+        log_return[i] = cumulative_reward
         log_loss_v[i] = loss_value.item()
         log_loss_p[i] = loss_policy.item()
         if np.mod(i, 10) == 0:
@@ -57,7 +55,9 @@ def main(
             )
 
     # save weights
-    torch.save(agent.state_dict(), f'../log/agent-{env_name}.pth')
+    # ckpt_fname = f'../log/agent-{env_name}-{n_epoch}.pth'
+    ckpt_fname = f'../log/agent-{env_name}.pth'
+    torch.save(agent.state_dict(), ckpt_fname)
 
     '''show learning curve: return, steps'''
     f, axes = plt.subplots(2, 1, figsize=(7, 7), sharex=True)

@@ -27,3 +27,21 @@ def softmax(z, beta):
     """
     assert beta > 0
     return torch.nn.functional.softmax(torch.squeeze(z / beta), dim=0)
+
+
+def entropy(probs):
+    """calculate entropy.
+    I'm using log base 2!
+
+    Parameters
+    ----------
+    probs : a torch vector
+        a prob distribution
+
+    Returns
+    -------
+    torch scalar
+        the entropy of the distribution
+
+    """
+    return - torch.stack([pi * torch.log2(pi) for pi in probs]).sum()

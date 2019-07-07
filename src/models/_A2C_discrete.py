@@ -1,12 +1,11 @@
 import torch.nn as nn
 import torch.nn.functional as F
-
 from torch.distributions import Categorical
-from models.utils import softmax, ortho_init
+from models.utils import softmax, ortho_init, entropy
 
 
-class A2C(nn.Module):
-    """a MLP actor-critic network
+class A2C_discrete(nn.Module):
+    """a A2C w/ multinomial action
     process: relu(Wx) -> pi, v
 
     Parameters
@@ -20,7 +19,7 @@ class A2C(nn.Module):
 
     Attributes
     ----------
-    ih : torch.nn.Linear
+    i2h : torch.nn.Linear
         input to hidden mapping
     actor : torch.nn.Linear
         the actor network
@@ -31,12 +30,12 @@ class A2C(nn.Module):
 
     """
 
-    def __init__(self, dim_input, dim_output, dim_hidden=128):
-        super(A2C, self).__init__()
+    def __init__(self, dim_input, dim_hidden, dim_output):
+        super(A2C_discrete, self).__init__()
         self.dim_input = dim_input
         self.dim_hidden = dim_hidden
         self.dim_output = dim_output
-        self.ih = nn.Linear(dim_input, dim_hidden)
+        self.i2h = nn.Linear(dim_input, dim_hidden)
         self.actor = nn.Linear(dim_hidden, dim_output)
         self.critic = nn.Linear(dim_hidden, 1)
         ortho_init(self)
@@ -57,29 +56,15 @@ class A2C(nn.Module):
             pi(a|s), v(s)
 
         """
-        h = F.relu(self.ih(x))
-        action_distribution = softmax(self.actor(h), beta)
-        value_estimate = self.critic(h)
-        return action_distribution, value_estimate
-
-    def pick_action(self, action_distribution):
-        """action selection by sampling from a multinomial.
-
-        Parameters
-        ----------
-        action_distribution : 1d torch.tensor
-            action distribution, pi(a|s)
-
-        Returns
-        -------
-        torch.tensor(int), torch.tensor(float)
-            sampled action, log_prob(sampled action)
-
-        """
-        m = Categorical(action_distribution)
-        a_t = m.sample()
-        log_prob_a_t = m.log_prob(a_t)
-        return a_t, log_prob_a_t
+        h = F.relu(self.i2h(x))
+        v_t = self.critic(h)
+        pi_a_t = softmax(self.actor(h), beta)
+        a_t, log_prob_a_t = _sample_action(pi_a_t)
+        ent_t = entropy(pi_a_t)
+        # pack data
+        misc = []
+        output = [a_t, log_prob_a_t, ent_t, v_t, misc]
+        return output
 
 
 class A2C_linear(nn.Module):
@@ -126,25 +111,31 @@ class A2C_linear(nn.Module):
             pi(a|s), v(s)
 
         """
-        action_distribution = softmax(self.actor(x), beta)
-        value_estimate = self.critic(x)
-        return action_distribution, value_estimate
+        pi_a_t = softmax(self.actor(x), beta)
+        v_t = self.critic(x)
+        a_t, log_prob_a_t = _sample_action(pi_a_t)
+        ent_t = entropy(a_t)
+        # pack data
+        misc = []
+        output = [a_t, log_prob_a_t, ent_t, v_t, misc]
+        return output
 
-    def pick_action(self, action_distribution):
-        """action selection by sampling from a multinomial.
 
-        Parameters
-        ----------
-        action_distribution : 1d torch.tensor
-            action distribution, pi(a|s)
+def _sample_action(pi_a_t):
+    """action selection by sampling from a multinomial.
 
-        Returns
-        -------
-        torch.tensor(int), torch.tensor(float)
-            sampled action, log_prob(sampled action)
+    Parameters
+    ----------
+    pi_a_t : 1d torch.tensor
+        action distribution, pi(a|s)
 
-        """
-        m = Categorical(action_distribution)
-        a_t = m.sample()
-        log_prob_a_t = m.log_prob(a_t)
-        return a_t, log_prob_a_t
+    Returns
+    -------
+    torch.tensor(int), torch.tensor(float)
+        sampled action, log_prob(sampled action)
+
+    """
+    m = Categorical(pi_a_t)
+    a_t = m.sample()
+    log_prob_a_t = m.log_prob(a_t)
+    return a_t, log_prob_a_t
