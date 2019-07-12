@@ -43,17 +43,18 @@ For example, the same architecture can also solve `Acrobot-v1`:
 .
 ├── LICENSE
 ├── README.md
-├── figs                         # figure dir
-├── log                          # logging dir 
-│   └── agent.pth                # a pre-trained agent
+├── figs                            # figs           
+├── log                             # pre-trained weights 
+├── requirements.txt
 └── src
     ├── models
-    │   ├── A2C.py               # a2c
+    │   ├── _A2C_continuous.py      # gaussian A2C
+    │   ├── _A2C_discrete.py        # multinomial A2C
+    │   ├── _A2C_helper.py          # some helper funcs 
     │   ├── __init__.py
-    │   ├── _a2c_helpers.py      # a2c helper 
-    │   └── utils.py
-    ├── render.py                # visualize env 
-    ├── train.py                 # train an agent
+    │   └── utils.py                
+    ├── render.py                   # render the trained policy 
+    ├── train.py                    # train a model 
     └── utils.py
 
 ```
@@ -67,11 +68,8 @@ Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap, T. P., Harley, T., …
 Brockman, G., Cheung, V., Pettersson, L., Schneider, J., Schulman, J., Tang, J., & Zaremba, W. (2016). OpenAI Gym. Retrieved from http://arxiv.org/abs/1606.01540
 
 [3] 
-Paszke, A., Gross, S., Chintala, S., Chanan, G., Yang, E., DeVito, Z., … Lerer, A. (2017). Automatic differentiation in PyTorch. Retrieved from https://openreview.net/forum?id=BJJsrmfCZ
-
-[4] 
 <a href="https://github.com/pytorch/examples/blob/master/reinforcement_learning/actor_critic.py">pytorch/examples/reinforcement_learning/actor_critic</a>
 
-[5] 
+[4] 
 <a href="http://rail.eecs.berkeley.edu/deeprlcourse/static/slides/lec-6.pdf">Slides</a> from 
 Deep Reinforcement Learning, CS294-112 at UC Berkeley
